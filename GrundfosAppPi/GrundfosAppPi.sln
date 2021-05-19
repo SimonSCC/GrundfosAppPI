@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAssembly", "WebAssembly\WebAssembly.csproj", "{8CFFAF8D-7186-493D-B093-83126D4D42AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAssembly", "WebAssembly\WebAssembly.csproj", "{8CFFAF8D-7186-493D-B093-83126D4D42AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{DBCAAF03-D42B-44B6-8CCF-FDFA2FFA28D5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary", "ClassLibrary\ClassLibrary.csproj", "{DBCAAF03-D42B-44B6-8CCF-FDFA2FFA28D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PumpEmulator", "PumpEmulator\PumpEmulator.csproj", "{1BAB1A3F-C5D9-48D4-A037-0C50F5ED1B3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{DBCAAF03-D42B-44B6-8CCF-FDFA2FFA28D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DBCAAF03-D42B-44B6-8CCF-FDFA2FFA28D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DBCAAF03-D42B-44B6-8CCF-FDFA2FFA28D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BAB1A3F-C5D9-48D4-A037-0C50F5ED1B3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BAB1A3F-C5D9-48D4-A037-0C50F5ED1B3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BAB1A3F-C5D9-48D4-A037-0C50F5ED1B3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BAB1A3F-C5D9-48D4-A037-0C50F5ED1B3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
