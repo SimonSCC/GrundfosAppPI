@@ -1,0 +1,51 @@
+﻿@page "/list"
+
+<link href="css/selectorwheel.css" rel="stylesheet" />
+
+
+<div class="selector-wheel">
+    
+    @foreach (Pump item in pumps)
+    {
+        <h3 class="selector-wheel-child">@item.Name</h3>
+    }
+</div>
+
+
+
+@code {
+    List<Pump> pumps;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        pumps = GetAvailablePumps();
+
+    }
+
+
+
+
+    private List<Pump> GetAvailablePumps()
+    {
+        List<Pump> demoPumps = DemoPumps();
+
+
+        return demoPumps;
+    }
+
+    private List<Pump> DemoPumps()
+    {
+        return new List<Pump>
+{
+            new Pump("Alpha3 Model B"),
+            new Pump("CRE/CME/MTRE Pump"),
+            new Pump("CREC/CMEC"),
+            new Pump("CU 301"),
+            new Pump("CU 362"),
+            new Pump("Hydro Multi-E/Multi-pump"),
+            new Pump("LC 231")
+        };
+
+    }
+}

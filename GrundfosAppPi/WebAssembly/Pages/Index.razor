@@ -14,11 +14,11 @@
             <image class="image" src="images/green_circle.png"></image>
         </div>
         <div id="status-image" class="mat-layout-grid-cell">
-            <p>Speed: @pump.Speed rpm</p>
+            @*<p>Speed: @pump.Speed rpm</p>
             <br>
             <p>Control mode: @pump.ControlMode</p>
             <p>Operating mode: @pump.OperatingMode</p>
-            <p>Setpoint: @pump.Setpoint m</p>
+            <p>Setpoint: @pump.Setpoint m</p>*@
         </div>
     </div>
 </div>
@@ -41,12 +41,13 @@
 
 
 @code {
-    Pump pump = new Pump
-    {
-        Speed = 863,
-        ControlMode = "Constant Mode",
-        OperatingMode = "Normal",
-        Setpoint = 3
-    };
+    public Pump SelectedPump { get; set; }
+    //Pump pump = new Pump
+    //{
+    //    Speed = 863,
+    //    ControlMode = "Constant Mode",
+    //    OperatingMode = "Normal",
+    //    Setpoint = 3
+    //};
 }
 
