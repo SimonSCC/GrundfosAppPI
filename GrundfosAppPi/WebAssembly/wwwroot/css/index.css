@@ -25,3 +25,42 @@
     background-color: #3d3d3d;
     min-width: 100px;
 }
+
+.width60
+{
+    width: 50%;
+    margin: auto;
+}
+
+
+.optionboxes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+   
+}
+@media screen and (max-width: 1395px) {
+
+    .width60{
+        width: 70%;
+    }
+}
+
+@media screen and (max-width: 945px) {
+
+    .width60 {
+        width: 100%;
+    }
+}
+
+
+@media screen and (max-width: 683px) {
+
+    .optionboxes {
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+    }
+}
+
