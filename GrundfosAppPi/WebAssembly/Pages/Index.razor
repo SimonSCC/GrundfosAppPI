@@ -1,0 +1,52 @@
+﻿@page "/"
+
+
+<h1>Dashboard</h1>
+<br>
+
+<div class="mat-layout-grid-cell-span-2" style="min-width: 680px; max-width: 780px">
+    <div class="mat-layout-grid-inner">
+        <div id="status-image" class="mat-layout-grid-cell">
+            <p>MAGNA3</p>
+            <image class="image" src="images/pumpe.png"></image>
+        </div>
+        <div id="status-image" class="mat-layout-grid-cell">
+            <p>No warning/alarm</p>
+            <image class="image" src="images/green_circle.png"></image>
+        </div>
+        <div id="status-image" class="mat-layout-grid-cell">
+            <p>Speed: @pump.Speed rpm</p>
+            <br>
+            <p>Control mode: @pump.ControlMode</p>
+            <p>Operating mode: @pump.OperatingMode</p>
+            <p>Setpoint: @pump.Setpoint m</p>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<MatButton Unelevated="true" Icon="settings_remote" Id="first-row-button">Control Mode</MatButton>
+<MatButton Unelevated="true" Icon="settings_remote" Id="first-row-button">Operating Mode</MatButton>
+<MatButton Unelevated="true" Icon="control_point" Id="first-row-button">Setpoint</MatButton>
+<MatButton Unelevated="true" Icon="clear" Id="first-row-button">Stop</MatButton>
+<br>
+<br>
+<MatButton Unelevated="true" Id="second-row-button">Status</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Settings</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Scheduling (Enabled)</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Alarms and warnings</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Assist</MatButton>
+
+
+
+@code {
+    Pump pump = new Pump
+    {
+        Speed = 863,
+        ControlMode = "Constant Mode",
+        OperatingMode = "Normal",
+        Setpoint = 3
+    };
+}
+

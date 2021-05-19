@@ -1,0 +1,27 @@
+﻿body {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+}
+
+.image {
+    height: 150px;
+}
+
+#status-image {
+    background-color: #383838;
+    border: 1px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    width: 220px;
+    height: 220px;
+}
+
+#first-row-button {
+    background-color: #686868;
+    min-width: 185px;
+}
+
+#second-row-button {
+    background-color: #3d3d3d;
+    min-width: 100px;
+}
