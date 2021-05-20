@@ -7,14 +7,15 @@ namespace PumpEmulator
 {
     class Program
     {
-        static IOTHub iOTHub = new IOTHub("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
+        IOTProducer iOTHub = new IOTProducer("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
 
         static void Main(string[] args)
         {
-            MainFlow();
+            Program pr = new Program();
+            pr.MainFlow();
         }
 
-        private static void MainFlow()
+        private void MainFlow()
         {
             Pump thisPump = new Pump("ALPHA3 Model B");
 
@@ -23,16 +24,15 @@ namespace PumpEmulator
                PumpInfo pumpData = thisPump.GetValues();
 
                 Console.WriteLine(pumpData);
-
                 SendToIoTHub(pumpData);
                 Thread.Sleep(15000);
             }
         }
 
-        private async static void SendToIoTHub(PumpInfo pumpInfo)
+        private void SendToIoTHub(PumpInfo pumpInfo)
         {
             iOTHub.Send(pumpInfo);
-            await iOTHub.Receive();
+            //    await iOTHub.Receive();
         }
     }
 }

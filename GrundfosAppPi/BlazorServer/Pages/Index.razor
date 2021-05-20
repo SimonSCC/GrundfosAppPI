@@ -40,10 +40,10 @@
 <MatButton Unelevated="true" Id="second-row-button">Alarms and warnings</MatButton>
 <MatButton Unelevated="true" Id="second-row-button">Assist</MatButton>
 
-<button @onclick="Test">Clic me</button>
+@*<button @onclick="Test">Clic me</button>*@
 
 @code {
-    IOTHub iot = new IOTHub("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
+    IOTReceiver receiver = new IOTReceiver();
 
     public PumpInfo PumpInfo { get; set; }
 
@@ -51,13 +51,38 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        receiver.MessageReceived += MessageReceivedEventHandler;
+        receiver.StartReceieveMessagesFromDevice();
+        //receiver.MessageReceived += (o, e) =>  GetNewMessagesFromReceiver();
     }
 
-
-    async void Test()
+    void MessageReceivedEventHandler(object sender, EventArgs e)
     {
-        PumpInfo = await iot.Receive();
-        
+        GetNewMessagesFromReceiver();
+    }
+
+    void GetNewMessagesFromReceiver()
+    {
+        PumpInfo = receiver.ConsumeMessage();
+        StateHasChanged();
+        //List<PumpInfo> ListOfPumpInfo = await receiver.StartReceieveMessagesFromDevice();
+
+        //if (PumpInfo == null)
+        //{
+        //    PumpInfo = ListOfPumpInfo[0];
+        //}
+        //else
+        //{
+        //    PumpInfo? updatedPump = ListOfPumpInfo.Where<PumpInfo>(a => a.Name == PumpInfo.Name).First();
+
+        //    if (updatedPump != null)
+        //    {
+        //        PumpInfo = updatedPump;
+        //    }
+        //}
+
+
+
         //StateHasChanged();
     }
 
