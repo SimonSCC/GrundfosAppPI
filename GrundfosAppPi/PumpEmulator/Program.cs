@@ -1,4 +1,5 @@
-﻿using ClassLibrary.Models;
+﻿using ClassLibrary.Data;
+using ClassLibrary.Models;
 using System;
 using System.Threading;
 
@@ -6,10 +7,11 @@ namespace PumpEmulator
 {
     class Program
     {
+        static IOTHub iOTHub = new IOTHub("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
+
         static void Main(string[] args)
         {
             MainFlow();
-
         }
 
         private static void MainFlow()
@@ -22,15 +24,15 @@ namespace PumpEmulator
 
                 Console.WriteLine(pumpData);
 
-
-                SendToIoTHub();
+                SendToIoTHub(pumpData);
                 Thread.Sleep(15000);
             }
         }
 
-        private static void SendToIoTHub()
+        private async static void SendToIoTHub(PumpInfo pumpInfo)
         {
-            throw new NotImplementedException();
+            iOTHub.Send(pumpInfo);
+            await iOTHub.Receive();
         }
     }
 }

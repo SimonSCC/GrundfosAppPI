@@ -18,13 +18,11 @@ namespace ClassLibrary.Models
         public int Setpoint { get; set; }
 
 
-
         //Dynamic values
         public bool TurnedOn { get; set; } = true;
 
 
         private double flow;
-
         public double Flow
         {
             get
@@ -36,31 +34,26 @@ namespace ClassLibrary.Models
                 flow += rand.Next(0, 17);
                 flow = Math.Round(flow, 2);
 
-
                 return flow;
             }
         }
 
 
-
         private double powerUsage;
-
         public double PowerUsage
         {
             get
             {
                 //No danger
-                
                 powerUsage += 0.01;
                 powerUsage = Math.Round(powerUsage, 2);
+
                 return powerUsage;
             }
         }
 
 
-
         private int speed;
-
         public int Speed
         {
             get
@@ -68,12 +61,10 @@ namespace ClassLibrary.Models
                 //under 100rpm
                 //over 1900rpm
                 speed = rand.Next(0, 2000);
+
                 return speed;
-
-
             }
         }
-
 
 
         private int frequence;
@@ -89,6 +80,7 @@ namespace ClassLibrary.Models
             }
         }
 
+
         public Pump(string name)
         {
             Name = name;
@@ -96,12 +88,7 @@ namespace ClassLibrary.Models
 
         public PumpInfo GetValues()
         {
-            return new PumpInfo(Frequence, PowerUsage, Flow);
+            return new PumpInfo(Name, Frequence, PowerUsage, Flow);
         }
-
-
-
-
-
     }
 }

@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using ClassLibrary.Data;
 
 
 <h1>Dashboard</h1>
@@ -14,11 +15,15 @@
             <image class="image" src="images/green_circle.png"></image>
         </div>
         <div id="status-image" class="mat-layout-grid-cell">
-            @*<p>Speed: @pump.Speed rpm</p>
+            @*<p>Speed: @pumpInfo.Speed rpm</p>
             <br>
             <p>Control mode: @pump.ControlMode</p>
             <p>Operating mode: @pump.OperatingMode</p>
             <p>Setpoint: @pump.Setpoint m</p>*@
+            @*@if(pumpInfo != null)
+            {
+                <p>@pumpInfo.Name + @pumpInfo.Flow + @pumpInfo.Frequence + @pumpInfo.PowerUsage</p>
+            }*@
         </div>
     </div>
 </div>
@@ -41,6 +46,22 @@
 
 
 @code {
+    //public PumpInfo pumpInfo { get; set; }
+
+    public void test()
+    {
+        //PumpInfo test = iOTHub.Receive().Result;
+        //pumpInfo = test;
+    }
+
+    protected override void OnInitialized()
+    {
+        IOTHub iOTHub = new IOTHub("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
+        base.OnInitialized();
+        test();
+    }
+
+
 
     public PumpInfo SelectedPump { get; set; }
     //Pump pump = new Pump
