@@ -37,12 +37,13 @@ namespace ClassLibrary.Data
             {
                 string messageString = Encoding.ASCII.GetString(message.GetBytes());
                 Console.WriteLine("Received Message {0}", messageString);
-                await deviceClient.CompleteAsync(message);
-
+                await deviceClient.CompleteAsync(message);                
                 return JsonSerializer.Deserialize<PumpInfo>(messageString);
             }
 
             return null;
         }
+
+
     }
 }

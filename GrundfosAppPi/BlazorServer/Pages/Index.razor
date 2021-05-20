@@ -13,15 +13,15 @@
             <image class="image" src="images/green_circle.png"></image>
         </div>
         <div id="status-image" class="mat-layout-grid-cell">
-            @*<p>Speed: @pumpInfo.Speed rpm</p>
+
+            @if (PumpInfo != null)
+            {
+                <p>Speed: @PumpInfo.Flow rpm</p>
                 <br>
-                <p>Control mode: @pump.ControlMode</p>
-                <p>Operating mode: @pump.OperatingMode</p>
-                <p>Setpoint: @pump.Setpoint m</p>*@
-            @*@if(pumpInfo != null)
-                {
-                    <p>@pumpInfo.Name + @pumpInfo.Flow + @pumpInfo.Frequence + @pumpInfo.PowerUsage</p>
-                }*@
+                <p>Control mode: @PumpInfo.Frequence</p>
+                <p>Operating mode: @PumpInfo.Name</p>
+                <p>Setpoint: @PumpInfo.PowerUsage m</p>
+            }
         </div>
     </div>
 </div>
@@ -40,4 +40,25 @@
 <MatButton Unelevated="true" Id="second-row-button">Alarms and warnings</MatButton>
 <MatButton Unelevated="true" Id="second-row-button">Assist</MatButton>
 
+<button @onclick="Test">Clic me</button>
 
+@code {
+    IOTHub iot = new IOTHub("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
+
+    public PumpInfo PumpInfo { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+
+    async void Test()
+    {
+        PumpInfo = await iot.Receive();
+        
+        //StateHasChanged();
+    }
+
+}
