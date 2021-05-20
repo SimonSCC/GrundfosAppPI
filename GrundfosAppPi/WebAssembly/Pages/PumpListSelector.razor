@@ -1,5 +1,5 @@
 ﻿@page "/list"
-
+@inject NavigationManager UriHelper 
 <link href="css/selectorwheel.css" rel="stylesheet" />
 
 
@@ -7,13 +7,24 @@
     
     @foreach (Pump item in pumps)
     {
-        <h3 class="selector-wheel-child">@item.Name</h3>
+        <h3 class="selector-wheel-child" @onclick="() => NavigateToPumpDetail(item)">@item.Name</h3>
     }
 </div>
 
 
 
 @code {
+    public void NavigateToPumpDetail(Pump pump)
+    {
+
+        pump.GetValues();
+        Console.WriteLine("atest");
+        UriHelper.NavigateTo("/");
+    }
+
+
+
+
     List<Pump> pumps;
 
     protected override void OnInitialized()
