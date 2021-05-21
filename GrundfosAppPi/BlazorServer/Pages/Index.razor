@@ -16,11 +16,14 @@
 
             @if (PumpInfo != null)
             {
-                <p>Speed: @PumpInfo.Flow rpm</p>
+            <div class="PumpInfoDisplay">
+                <p>Name: @PumpInfo.Name</p>
                 <br>
-                <p>Control mode: @PumpInfo.Frequence</p>
-                <p>Operating mode: @PumpInfo.Name</p>
-                <p>Setpoint: @PumpInfo.PowerUsage m</p>
+                <p>Speed: @PumpInfo.Speed rpm</p>
+                <p>Frequence: @PumpInfo.Frequence Hz</p>
+                <p>PowerUsage: @PumpInfo.PowerUsage kWh</p>
+                <p>Flow: @PumpInfo.Flow m3/h</p>
+            </div>
             }
         </div>
     </div>
@@ -53,7 +56,7 @@
         base.OnInitialized();
         receiver.MessageReceived += MessageReceivedEventHandler;
         receiver.StartReceieveMessagesFromDevice();
-        //receiver.MessageReceived += (o, e) =>  GetNewMessagesFromReceiver();
+        //receiver.MessageReceived += (o, e) => GetNewMessagesFromReceiver();
     }
 
     void MessageReceivedEventHandler(object sender, EventArgs e)

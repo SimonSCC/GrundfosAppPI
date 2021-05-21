@@ -88,7 +88,7 @@ namespace ClassLibrary.Models
 
         public PumpInfo GetValues()
         {
-            return new PumpInfo(Name, Frequence, PowerUsage, Flow);
+            return new PumpInfo(Name, Frequence, PowerUsage, Flow, Speed);
         }
     }
 }

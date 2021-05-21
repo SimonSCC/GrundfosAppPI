@@ -14,18 +14,20 @@ namespace ClassLibrary.Models
         public int Frequence { get; set; }
         public double PowerUsage { get; set; }
         public double Flow { get; set; }
+        public int Speed { get; set; }
 
-        public PumpInfo(string name, int frequence, double powerUsage, double flow)
+        public PumpInfo(string name, int frequence, double powerUsage, double flow, int speed)
         {
             Name = name;
             Frequence = frequence;
             PowerUsage = powerUsage;
             Flow = flow;
+            Speed = speed;
         }
 
         public override string ToString()
         {
-            return Name + " " + Frequence + " " + PowerUsage + " " + Flow;
+            return Name + " " + Frequence + " " + PowerUsage + " " + Flow + " " + Speed;
         }
 
         public string ToJson()

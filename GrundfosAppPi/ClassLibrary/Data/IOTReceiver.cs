@@ -2,10 +2,8 @@
 using Microsoft.Azure.EventHubs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ClassLibrary.Data
 {
@@ -19,7 +17,6 @@ namespace ClassLibrary.Data
         const string IotHubSasKeyName = "iothubowner";
         const string IotHubSasKey = "Cfy7AdJMKJ5NT4FN1nSZ6YRz5sjllsFXma1G3dIb71c=";
 
-
         private Queue<PumpInfo> MainQueue;
         public event EventHandler MessageReceived;
 
@@ -27,40 +24,59 @@ namespace ClassLibrary.Data
         public IOTReceiver()
         {
             MainQueue = new Queue<PumpInfo>();
+            CreateEventHubClient();
+        }
+
+        void CreateEventHubClient()
+        {
             eventHubClient = EventHubClient.CreateFromConnectionString(
-                new EventHubsConnectionStringBuilder(new Uri(EventHubCompatibleEndPoint), EventHubCompatiblePath, IotHubSasKeyName, IotHubSasKey).ToString());
+               new EventHubsConnectionStringBuilder(new Uri(EventHubCompatibleEndPoint), EventHubCompatiblePath, IotHubSasKeyName, IotHubSasKey).ToString());
         }
 
         public async void StartReceieveMessagesFromDevice()
         {
             Console.WriteLine("Initializing receiver...");
-            //var runtimeInfo = await eventHubClient.GetRuntimeInformationAsync();
-            //var partitions = runtimeInfo.PartitionIds;
 
-            //Partitions på IOT huben er der to. Det er bare hvilken del, på den måde kan man have en listener på hver, og have kaffemaskiner på den ene,
-            //og ngoet på den anden
-            if (eventReceiver == null)
+            try
             {
-                eventReceiver = eventHubClient.CreateReceiver("$Default", "0", EventPosition.FromEnqueuedTime(DateTime.Now));
-            }
+                //var runtimeInfo = await eventHubClient.GetRuntimeInformationAsync();
+                //var partitions = runtimeInfo.PartitionIds;
 
-            while (true)
-            {
-                IEnumerable<EventData> events = await eventReceiver.ReceiveAsync(100);
-
-
-                //List<PumpInfo> pumpInfos = new List<PumpInfo>();
-                foreach (EventData eventData in events)
+                //Partitions på IOT huben er der to. Det er bare hvilken del, på den måde kan man have en listener på hver, og have kaffemaskiner på den ene,
+                //og ngoet på den anden
+                if (eventReceiver == null)
                 {
-                    string data = Encoding.UTF8.GetString(eventData.Body.Array);
-                    //Console.WriteLine("Message received on partition {0}:", partitions[0]);
-                    Console.WriteLine("  {0}:", data);
-                    //pumpInfos.Add();
-                    MainQueue.Enqueue(JsonSerializer.Deserialize<PumpInfo>(data));
+                    eventReceiver = eventHubClient.CreateReceiver("$Default", "0", EventPosition.FromEnqueuedTime(DateTime.Now));
+
                 }
 
 
-                MessageReceived?.Invoke(this, EventArgs.Empty);
+
+                while (true)
+                {
+                    IEnumerable<EventData> events = await eventReceiver.ReceiveAsync(100);
+
+
+                    //List<PumpInfo> pumpInfos = new List<PumpInfo>();
+                    foreach (EventData eventData in events)
+                    {
+                        string data = Encoding.UTF8.GetString(eventData.Body.Array);
+                        //Console.WriteLine("Message received on partition {0}:", partitions[0]);
+                        Console.WriteLine("  {0}:", data);
+                        //pumpInfos.Add();
+                        MainQueue.Enqueue(JsonSerializer.Deserialize<PumpInfo>(data));
+                    }
+
+
+                    MessageReceived?.Invoke(this, EventArgs.Empty);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                eventHubClient.Close();
+                CreateEventHubClient();
+                StartReceieveMessagesFromDevice();
             }
         }
 
