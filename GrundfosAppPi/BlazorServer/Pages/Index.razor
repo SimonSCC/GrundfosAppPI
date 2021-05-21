@@ -5,25 +5,38 @@
 <div class="width60">
     <div class="optionboxes">
         <div id="status-image" class="mat-layout-grid-cell">
-            <p>MAGNA3</p>
-            <image class="image" src="images/pumpe.png"></image>
+            @if (PumpInfo != null)
+            {
+                <h6>@PumpInfo.Name</h6>
+                <br>
+                <image class="image" src="images/pumpe.png"></image>
+            }
         </div>
         <div id="status-image" class="mat-layout-grid-cell">
-            <p>No warning/alarm</p>
-            <image class="image" src="images/green_circle.png"></image>
+            <p>@status</p>
+            @if (image_status == "red")
+            {
+                <image class="image" src="images/red.png"></image>
+            }
+            @if (image_status == "yellow")
+            {
+                <image class="image" src="images/yellow.png"></image>
+            }
+            @if (image_status == "green")
+            {
+                <image class="image" src="images/green.png"></image>
+            }
         </div>
         <div id="status-image" class="mat-layout-grid-cell">
 
             @if (PumpInfo != null)
             {
-            <div class="PumpInfoDisplay">
-                <h6>@PumpInfo.Name</h6>
-                <br>
-                <p>Speed: @PumpInfo.Speed rpm</p>
-                <p>Frequence: @PumpInfo.Frequence Hz</p>
-                <p>PowerUsage: @PumpInfo.PowerUsage kWh</p>
-                <p>Flow: @PumpInfo.Flow m3/h</p>
-            </div>
+                <div class="PumpInfoDisplay">
+                    <p class="@speedstatus">Speed: @PumpInfo.Speed rpm</p>
+                    <p class="@frequencestatus">Frequence: @PumpInfo.Frequence Hz</p>
+                    <p>PowerUsage: @PumpInfo.PowerUsage kWh</p>
+                    <p class="@flowstatus">Flow: @PumpInfo.Flow m3/h</p>
+                </div>
             }
         </div>
     </div>
@@ -49,7 +62,11 @@
     IOTReceiver receiver = new IOTReceiver();
 
     public PumpInfo PumpInfo { get; set; }
-
+    public string speedstatus { get; set; }
+    public string frequencestatus { get; set; }
+    public string flowstatus { get; set; }
+    public string status { get; set; }
+    public string image_status { get; set; }
 
     protected override void OnInitialized()
     {
@@ -67,6 +84,37 @@
     void GetNewMessagesFromReceiver()
     {
         PumpInfo = receiver.ConsumeMessage();
+
+        if (PumpInfo.Speed <= 150 || PumpInfo.Speed >= 1850)
+        {
+            speedstatus = "warning";
+            if (PumpInfo.Speed <= 100 || PumpInfo.Speed >= 1900)
+                speedstatus = "danger";
+        }
+        else
+            speedstatus = "";
+
+        if (PumpInfo.Frequence <= 10 || PumpInfo.Frequence >= 55)
+        {
+            frequencestatus = "warning";
+            if (PumpInfo.Frequence <= 5 || PumpInfo.Frequence >= 60)
+                frequencestatus = "danger";
+        }
+        else
+            frequencestatus = "";
+
+        if (PumpInfo.Flow <= 4 || PumpInfo.Flow >= 12)
+        {
+            flowstatus = "warning";
+            if (PumpInfo.Flow <= 0 || PumpInfo.Flow >= 16)
+                flowstatus = "danger";
+        }
+        else
+            flowstatus = "";
+
+        SetStatus();
+
+
         StateHasChanged();
         //List<PumpInfo> ListOfPumpInfo = await receiver.StartReceieveMessagesFromDevice();
 
@@ -89,4 +137,22 @@
         //StateHasChanged();
     }
 
+    void SetStatus()
+    {
+        if (speedstatus == "danger" || frequencestatus == "danger" || flowstatus == "danger")
+        {
+            status = "Danger";
+            image_status = "red";
+        }
+        else if (speedstatus == "warning" || frequencestatus == "warning" || flowstatus == "warning")
+        {
+            status = "Warning";
+            image_status = "yellow";
+        }
+        else
+        {
+            status = "Good";
+            image_status = "green";
+        }
+    }
 }

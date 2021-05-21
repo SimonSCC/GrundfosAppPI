@@ -45,6 +45,7 @@ namespace ClassLibrary.Models
             get
             {
                 //No danger
+
                 powerUsage += 0.01;
                 powerUsage = Math.Round(powerUsage, 2);
 
@@ -60,6 +61,7 @@ namespace ClassLibrary.Models
             {
                 //under 100rpm
                 //over 1900rpm
+
                 speed = rand.Next(0, 2000);
 
                 return speed;

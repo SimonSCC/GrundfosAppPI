@@ -48,12 +48,20 @@
 */}
 
 .PumpInfoDisplay p{
-    margin: 0;
+    margin: 20px;
     
 }
 
 .PumpInfoDisplay h6{
     text-align: center;
+}
+
+.danger {
+    color: red;
+}
+
+.warning {
+    color: yellow;
 }
 
 @media screen and (max-width: 1395px) {
