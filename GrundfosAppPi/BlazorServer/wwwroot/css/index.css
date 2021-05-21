@@ -42,12 +42,18 @@
 
 
 .PumpInfoDisplay{
-    
-    line-height: 1.2em;
-}
+    text-align: left;
+
+/*    line-height: 1.2em;
+*/}
 
 .PumpInfoDisplay p{
     margin: 0;
+    
+}
+
+.PumpInfoDisplay h6{
+    text-align: center;
 }
 
 @media screen and (max-width: 1395px) {
