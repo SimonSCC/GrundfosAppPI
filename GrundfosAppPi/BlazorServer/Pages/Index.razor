@@ -32,10 +32,10 @@
             @if (PumpInfo != null)
             {
                 <div class="PumpInfoDisplay">
-                    <p class="@speedstatus">Speed: @PumpInfo.Speed rpm</p>
-                    <p class="@frequencestatus">Frequence: @PumpInfo.Frequence Hz</p>
+                    <p class="@speedStatus">Speed: @PumpInfo.Speed rpm</p>
+                    <p class="@frequenceStatus">Frequence: @PumpInfo.Frequence Hz</p>
                     <p>PowerUsage: @PumpInfo.PowerUsage kWh</p>
-                    <p class="@flowstatus">Flow: @PumpInfo.Flow m3/h</p>
+                    <p class="@flowStatus">Flow: @PumpInfo.Flow m3/h</p>
                 </div>
             }
         </div>
@@ -62,9 +62,11 @@
     IOTReceiver receiver = new IOTReceiver();
 
     public PumpInfo PumpInfo { get; set; }
-    public string speedstatus { get; set; }
-    public string frequencestatus { get; set; }
-    public string flowstatus { get; set; }
+
+    public string speedStatus { get; set; }
+    public string frequenceStatus { get; set; }
+    public string flowStatus { get; set; }
+
     public string status { get; set; }
     public string image_status { get; set; }
 
@@ -85,32 +87,77 @@
     {
         PumpInfo = receiver.ConsumeMessage();
 
-        if (PumpInfo.Speed <= 150 || PumpInfo.Speed >= 1850)
+        switch (PumpInfo.SpeedStatus)
         {
-            speedstatus = "warning";
-            if (PumpInfo.Speed <= 100 || PumpInfo.Speed >= 1900)
-                speedstatus = "danger";
+            case StatusCode.Good:
+                speedStatus = "";
+                break;
+            case StatusCode.Warning:
+                speedStatus = "warning";
+                break;
+            case StatusCode.Danger:
+                speedStatus = "Danger";
+                break;
+            default:
+                break;
         }
-        else
-            speedstatus = "";
 
-        if (PumpInfo.Frequence <= 10 || PumpInfo.Frequence >= 55)
-        {
-            frequencestatus = "warning";
-            if (PumpInfo.Frequence <= 5 || PumpInfo.Frequence >= 60)
-                frequencestatus = "danger";
-        }
-        else
-            frequencestatus = "";
 
-        if (PumpInfo.Flow <= 4 || PumpInfo.Flow >= 12)
+        switch (PumpInfo.FrequenceStatus)
         {
-            flowstatus = "warning";
-            if (PumpInfo.Flow <= 0 || PumpInfo.Flow >= 16)
-                flowstatus = "danger";
+            case StatusCode.Good:
+                frequenceStatus = "";
+                break;
+            case StatusCode.Warning:
+                frequenceStatus = "warning";
+                break;
+            case StatusCode.Danger:
+                frequenceStatus = "danger";
+                break;
+            default:
+                break;
         }
-        else
-            flowstatus = "";
+
+        switch (PumpInfo.FlowStatus)
+        {
+            case StatusCode.Good:
+                flowStatus = "";
+                break;
+            case StatusCode.Warning:
+                flowStatus = "warning";
+                break;
+            case StatusCode.Danger:
+                flowStatus = "danger";
+                break;
+            default:
+                break;
+        }
+        //if (PumpInfo.Speed <= 150 || PumpInfo.Speed >= 1850)
+        //{
+        //    speedstatus = "warning";
+        //    if (PumpInfo.Speed <= 100 || PumpInfo.Speed >= 1900)
+        //        speedstatus = "danger";
+        //}
+        //else
+        //    speedstatus = "";
+
+        //if (PumpInfo.Frequence <= 10 || PumpInfo.Frequence >= 55)
+        //{
+        //    frequencestatus = "warning";
+        //    if (PumpInfo.Frequence <= 5 || PumpInfo.Frequence >= 60)
+        //        frequencestatus = "danger";
+        //}
+        //else
+        //    frequencestatus = "";
+
+        //if (PumpInfo.Flow <= 4 || PumpInfo.Flow >= 12)
+        //{
+        //    flowstatus = "warning";
+        //    if (PumpInfo.Flow <= 0 || PumpInfo.Flow >= 16)
+        //        flowstatus = "danger";
+        //}
+        //else
+        //    flowstatus = "";
 
         SetStatus();
 
@@ -139,12 +186,12 @@
 
     void SetStatus()
     {
-        if (speedstatus == "danger" || frequencestatus == "danger" || flowstatus == "danger")
+        if (speedStatus == "danger" || frequenceStatus == "danger" || flowStatus == "danger")
         {
             status = "Danger";
             image_status = "red";
         }
-        else if (speedstatus == "warning" || frequencestatus == "warning" || flowstatus == "warning")
+        else if (speedStatus == "warning" || frequenceStatus == "warning" || flowStatus == "warning")
         {
             status = "Warning";
             image_status = "yellow";
