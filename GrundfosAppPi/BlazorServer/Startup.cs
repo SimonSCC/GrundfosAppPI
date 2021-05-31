@@ -31,20 +31,20 @@ namespace BlazorServer
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<SmtpClient>(options => new SmtpClient
-            {
-                //(new EmailService("smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true)
-                Credentials = new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"),
-                Host = "smtp.gmail.com",
-                Port = 587,
-                EnableSsl = true
+            //services.AddScoped<SmtpClient>(options => new SmtpClient
+            //{
+            //    //(new EmailService("smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true)
+            //    Credentials = new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"),
+            //    Host = "smtp.gmail.com",
+            //    Port = 587,
+            //    EnableSsl = true
 
-            });
+            //});
 
 
-            //services.AddScoped(
-            //    options => new EmailService(
-            //        "smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true));
+            services.AddScoped(
+                options => new EmailService(
+                    "smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true));
 
 
 
