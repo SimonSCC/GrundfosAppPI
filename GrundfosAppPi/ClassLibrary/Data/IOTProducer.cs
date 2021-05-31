@@ -19,7 +19,6 @@ namespace ClassLibrary.Data
         public IOTProducer(string connectionString)
         {
             deviceClient = DeviceClient.CreateFromConnectionString(connectionString);
-
         }
 
      
@@ -27,32 +26,8 @@ namespace ClassLibrary.Data
         {
             Message message = new Message(Encoding.ASCII.GetBytes(pumpInfo.ToJson()));
 
-
-            //message.Properties.Add("pumpEvent", "true");
             await deviceClient.SendEventAsync(message);
             Console.WriteLine("Sending Message {0}", pumpInfo.ToJson());
-
-
-
         }
-
-        //public async Task<PumpInfo> Receive()
-        //{
-
-
-        //    Message message = await deviceClient.ReceiveAsync();
-
-        //    if (message != null)
-        //    {
-        //        string messageString = Encoding.ASCII.GetString(message.GetBytes());
-        //        Console.WriteLine("Received Message {0}", messageString);
-        //        await deviceClient.CompleteAsync(message);
-        //        return JsonSerializer.Deserialize<PumpInfo>(messageString);
-        //    }
-
-        //    return null;
-        //}
-
-
     }
 }

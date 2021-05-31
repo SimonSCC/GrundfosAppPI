@@ -11,6 +11,7 @@ namespace ClassLibrary.Models
         public string PumpName { get; set; }
         public string Reading { get; set; }
         public string AttributeType { get; set; } //Speed, flow, frequence
+
         public DangerReading(string pumpName, string attributeType, string reading)
         {
             PumpName = pumpName;

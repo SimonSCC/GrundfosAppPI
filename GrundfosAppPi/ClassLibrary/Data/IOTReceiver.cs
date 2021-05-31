@@ -20,13 +20,12 @@ namespace ClassLibrary.Data
         private Queue<PumpInfo> MainQueue;
         public event EventHandler MessageReceived;
 
-
-
         public IOTReceiver()
         {
             MainQueue = new Queue<PumpInfo>();
             CreateEventHubClient();
         }
+
 
         void CreateEventHubClient()
         {
@@ -40,31 +39,21 @@ namespace ClassLibrary.Data
 
             try
             {
-                //var runtimeInfo = await eventHubClient.GetRuntimeInformationAsync();
-                //var partitions = runtimeInfo.PartitionIds;
-
                 //Partitions på IOT huben er der to. Det er bare hvilken del, på den måde kan man have en listener på hver, og have kaffemaskiner på den ene,
                 //og ngoet på den anden
                 if (eventReceiver == null)
                 {
                     eventReceiver = eventHubClient.CreateReceiver("$Default", "0", EventPosition.FromEnqueuedTime(DateTime.Now));
-
                 }
-
-                
 
                 while (true)
                 {
                     IEnumerable<EventData> events = await eventReceiver.ReceiveAsync(100);
 
-
-                    //List<PumpInfo> pumpInfos = new List<PumpInfo>();
                     foreach (EventData eventData in events)
                     {
                         string data = Encoding.UTF8.GetString(eventData.Body.Array);
-                        //Console.WriteLine("Message received on partition {0}:", partitions[0]);
                         Console.WriteLine("  {0}:", data);
-                        //pumpInfos.Add();
                         MainQueue.Enqueue(JsonSerializer.Deserialize<PumpInfo>(data));
                     }
 
@@ -84,14 +73,5 @@ namespace ClassLibrary.Data
         {
             return MainQueue.Dequeue();
         }
-
-
-
-
-
-
-
-
-
     }
 }

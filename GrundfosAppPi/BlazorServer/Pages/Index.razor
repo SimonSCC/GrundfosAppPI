@@ -1,7 +1,7 @@
 ﻿@page "/"
-@*@inject EmailService  emailService;*@
 @inject IOTReceiver receiver;
-@*@inject SmtpClient smtpClient;*@
+
+
 
 <h1>Dashboard</h1>
 <br>
@@ -60,8 +60,8 @@
 <MatButton Unelevated="true" Id="second-row-button">Assist</MatButton>
 
 
-@code {
 
+@code {
     public PumpInfo PumpInfo { get; set; }
 
     public string speedStatus { get; set; }
@@ -71,16 +71,11 @@
     public string status { get; set; }
     public string image_status { get; set; }
 
-    private readonly object sendingEmail = new object();
-
-    public int test;
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
         receiver.MessageReceived += MessageReceivedEventHandler;
         receiver.StartReceieveMessagesFromDevice();
-        //receiver.MessageReceived += (o, e) => GetNewMessagesFromReceiver();
     }
 
     void MessageReceivedEventHandler(object sender, EventArgs e)
@@ -90,7 +85,6 @@
 
     void GetNewMessagesFromReceiver()
     {
-       
         PumpInfo = receiver.ConsumeMessage();
 
         switch (PumpInfo.SpeedStatus)
@@ -103,12 +97,10 @@
                 break;
             case StatusCode.Danger:
                 speedStatus = "danger";
-                //sendEmail(PumpInfo.Name, PumpInfo.Speed.ToString(), "speed");
                 break;
             default:
                 break;
         }
-
 
         switch (PumpInfo.FrequenceStatus)
         {
@@ -120,7 +112,6 @@
                 break;
             case StatusCode.Danger:
                 frequenceStatus = "danger";
-                //sendEmail(PumpInfo.Name, PumpInfo.Frequence.ToString(), "frequence");
                 break;
             default:
                 break;
@@ -136,37 +127,14 @@
                 break;
             case StatusCode.Danger:
                 flowStatus = "danger";
-                //sendEmail(PumpInfo.Name, PumpInfo.Flow.ToString(), "flow");
                 break;
             default:
                 break;
         }
 
-
         SetStatus();
-
-
         StateHasChanged();
-        //List<PumpInfo> ListOfPumpInfo = await receiver.StartReceieveMessagesFromDevice();
-
-        //if (PumpInfo == null)
-        //{
-        //    PumpInfo = ListOfPumpInfo[0];
-        //}
-        //else
-        //{
-        //    PumpInfo? updatedPump = ListOfPumpInfo.Where<PumpInfo>(a => a.Name == PumpInfo.Name).First();
-
-        //    if (updatedPump != null)
-        //    {
-        //        PumpInfo = updatedPump;
-        //    }
-        //}
-
-
-
-        //StateHasChanged();
-    }
+     }
 
     void SetStatus()
     {
@@ -186,18 +154,4 @@
             image_status = "green";
         }
     }
-
-    //void sendEmail(string pumpName, string dangerReading, string dangerType)
-    //{
-    //    lock (sendingEmail)
-    //    {
-    //        string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
-    //        //EmailService emailService = new EmailService(smtpClient, "iotemailpumpbot@gmail.com");
-    //        emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
-    //    }
-
-    //    //Thread thread;
-    //    //thread.Start(emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message));
-    //    //await emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
-    //}
 }

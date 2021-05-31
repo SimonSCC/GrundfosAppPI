@@ -24,13 +24,6 @@ namespace ClassLibrary.Services
             };
         }
 
-        //public EmailService(SmtpClient client, string fromEmail)
-        //{
-        //    Client = client;
-        //    FromEmail = new MailAddress(fromEmail);
-        //}
-
-
         public void Send(string toEmail, string subject, string message)
         {
             MailMessage mailMessage = new MailMessage(FromEmail, new MailAddress(toEmail))

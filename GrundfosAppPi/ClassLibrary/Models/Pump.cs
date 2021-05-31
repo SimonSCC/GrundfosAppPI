@@ -10,13 +10,11 @@ namespace ClassLibrary.Models
     {
         Random rand = new Random();
 
-
         //Static values
         public string Name { get; set; }
         public string ControlMode { get; set; }
         public string OperatingMode { get; set; }
         public int Setpoint { get; set; }
-
 
         //Dynamic values
         public bool TurnedOn { get; set; } = true;
@@ -38,7 +36,6 @@ namespace ClassLibrary.Models
             }
         }
 
-
         private double powerUsage;
         public double PowerUsage
         {
@@ -52,7 +49,6 @@ namespace ClassLibrary.Models
                 return powerUsage;
             }
         }
-
 
         private int speed;
         public int Speed
@@ -76,6 +72,7 @@ namespace ClassLibrary.Models
             {
                 //under 5 er farlig, 
                 //over 60 er farlig
+
                 frequence = rand.Next(0, 65);
 
                 return frequence;

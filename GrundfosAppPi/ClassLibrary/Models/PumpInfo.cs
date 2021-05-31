@@ -37,9 +37,7 @@ namespace ClassLibrary.Models
                 frequence = value;
             }
         }
-
         public StatusCode FrequenceStatus { get; set; }
-
 
 
         private double flow;
@@ -65,14 +63,10 @@ namespace ClassLibrary.Models
                 flow = value;
             }
         }
-
         public StatusCode FlowStatus { get; set; }
 
 
-
-
         private int speed;
-
         public int Speed
         {
             get { return speed; }
@@ -95,10 +89,7 @@ namespace ClassLibrary.Models
                 speed = value;
             }
         }
-
         public StatusCode SpeedStatus { get; set; }
-
-
 
 
         public PumpInfo(string name, int frequence, double powerUsage, double flow, int speed)
@@ -138,6 +129,7 @@ namespace ClassLibrary.Models
             return null;
         }
     }
+
 
     public enum StatusCode
     {
