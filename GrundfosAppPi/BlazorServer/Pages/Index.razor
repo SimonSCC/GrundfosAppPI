@@ -80,13 +80,6 @@
         receiver.MessageReceived += MessageReceivedEventHandler;
         receiver.StartReceieveMessagesFromDevice();
     }
-        
-    //protected override Task OnAfterRenderAsync(bool firstRender)
-    //{
-    //    receiver.MessageReceived += MessageReceivedEventHandler;
-    //    receiver.StartReceieveMessagesFromDevice();
-    //    return base.OnAfterRenderAsync(firstRender);
-    //}
 
     void MessageReceivedEventHandler(object sender, EventArgs e)
     {
