@@ -71,6 +71,10 @@
     public string status { get; set; }
     public string image_status { get; set; }
 
+    private readonly object sendingEmail = new object();
+
+    public int test;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -86,6 +90,8 @@
 
     void GetNewMessagesFromReceiver()
     {
+        test++;
+        Console.WriteLine(test);
         PumpInfo = receiver.ConsumeMessage();
 
         switch (PumpInfo.SpeedStatus)
@@ -182,11 +188,14 @@
         }
     }
 
-    async void sendEmail(string pumpName, string dangerReading, string dangerType)
+    void sendEmail(string pumpName, string dangerReading, string dangerType)
     {
-        string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
-        //EmailService emailService = new EmailService(smtpClient, "iotemailpumpbot@gmail.com");
-        await emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
+        lock (sendingEmail)
+        {
+            string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
+            //EmailService emailService = new EmailService(smtpClient, "iotemailpumpbot@gmail.com");
+            emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
+        }
 
         //Thread thread;
         //thread.Start(emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message));

@@ -48,7 +48,7 @@ namespace BlazorServer
 
 
 
-            services.AddScoped<IOTReceiver>();
+            services.AddTransient<IOTReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

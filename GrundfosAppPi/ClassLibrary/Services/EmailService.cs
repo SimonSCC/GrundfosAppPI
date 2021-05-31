@@ -31,7 +31,7 @@ namespace ClassLibrary.Services
         //}
 
 
-        public async Task<bool> Send(string toEmail, string subject, string message)
+        public void Send(string toEmail, string subject, string message)
         {
             MailMessage mailMessage = new MailMessage(FromEmail, new MailAddress(toEmail))
             {
@@ -39,9 +39,7 @@ namespace ClassLibrary.Services
                 Body = message
             };
 
-            await Client.SendMailAsync(mailMessage);
-
-            return true;
+            Client.Send(mailMessage);
         }
     }
 }

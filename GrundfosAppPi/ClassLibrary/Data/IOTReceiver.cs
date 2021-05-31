@@ -20,6 +20,8 @@ namespace ClassLibrary.Data
         private Queue<PumpInfo> MainQueue;
         public event EventHandler MessageReceived;
 
+        public int test = 0;
+
 
         public IOTReceiver()
         {
@@ -50,7 +52,7 @@ namespace ClassLibrary.Data
 
                 }
 
-
+                
 
                 while (true)
                 {
@@ -67,7 +69,7 @@ namespace ClassLibrary.Data
                         MainQueue.Enqueue(JsonSerializer.Deserialize<PumpInfo>(data));
                     }
 
-
+                    test++;
                     MessageReceived?.Invoke(this, EventArgs.Empty);
                 }
             }
