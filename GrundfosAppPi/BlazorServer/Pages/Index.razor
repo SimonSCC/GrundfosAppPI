@@ -56,7 +56,6 @@
 <MatButton Unelevated="true" Id="second-row-button">Alarms and warnings</MatButton>
 <MatButton Unelevated="true" Id="second-row-button">Assist</MatButton>
 
-@*<button @onclick="Test">Clic me</button>*@
 
 @code {
     IOTReceiver receiver = new IOTReceiver();
@@ -132,32 +131,7 @@
             default:
                 break;
         }
-        //if (PumpInfo.Speed <= 150 || PumpInfo.Speed >= 1850)
-        //{
-        //    speedstatus = "warning";
-        //    if (PumpInfo.Speed <= 100 || PumpInfo.Speed >= 1900)
-        //        speedstatus = "danger";
-        //}
-        //else
-        //    speedstatus = "";
-
-        //if (PumpInfo.Frequence <= 10 || PumpInfo.Frequence >= 55)
-        //{
-        //    frequencestatus = "warning";
-        //    if (PumpInfo.Frequence <= 5 || PumpInfo.Frequence >= 60)
-        //        frequencestatus = "danger";
-        //}
-        //else
-        //    frequencestatus = "";
-
-        //if (PumpInfo.Flow <= 4 || PumpInfo.Flow >= 12)
-        //{
-        //    flowstatus = "warning";
-        //    if (PumpInfo.Flow <= 0 || PumpInfo.Flow >= 16)
-        //        flowstatus = "danger";
-        //}
-        //else
-        //    flowstatus = "";
+        
 
         SetStatus();
 
