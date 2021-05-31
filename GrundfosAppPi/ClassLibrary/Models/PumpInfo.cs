@@ -119,6 +119,24 @@ namespace ClassLibrary.Models
         {
             return JsonSerializer.Serialize(this);
         }
+
+        public DangerReading DoesContainDangerValues()
+        {
+            if (SpeedStatus == StatusCode.Danger)
+            {
+                return new DangerReading(Name, "Speed", Speed.ToString());
+            }
+            if (FlowStatus == StatusCode.Danger)
+            {
+                return new DangerReading(Name, "Flow", Flow.ToString());
+            }
+            if (FrequenceStatus == StatusCode.Danger)
+            {
+                return new DangerReading(Name, "Frequence", Frequence.ToString());
+            }
+
+            return null;
+        }
     }
 
     public enum StatusCode

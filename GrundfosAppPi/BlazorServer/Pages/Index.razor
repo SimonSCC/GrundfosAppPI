@@ -1,5 +1,5 @@
 ﻿@page "/"
-@inject EmailService  emailService;
+@*@inject EmailService  emailService;*@
 @inject IOTReceiver receiver;
 @*@inject SmtpClient smtpClient;*@
 
@@ -90,8 +90,7 @@
 
     void GetNewMessagesFromReceiver()
     {
-        test++;
-        Console.WriteLine(test);
+       
         PumpInfo = receiver.ConsumeMessage();
 
         switch (PumpInfo.SpeedStatus)
@@ -103,8 +102,8 @@
                 speedStatus = "warning";
                 break;
             case StatusCode.Danger:
-                speedStatus = "Danger";
-                sendEmail(PumpInfo.Name, PumpInfo.Speed.ToString(), "speed");
+                speedStatus = "danger";
+                //sendEmail(PumpInfo.Name, PumpInfo.Speed.ToString(), "speed");
                 break;
             default:
                 break;
@@ -121,7 +120,7 @@
                 break;
             case StatusCode.Danger:
                 frequenceStatus = "danger";
-                sendEmail(PumpInfo.Name, PumpInfo.Frequence.ToString(), "frequence");
+                //sendEmail(PumpInfo.Name, PumpInfo.Frequence.ToString(), "frequence");
                 break;
             default:
                 break;
@@ -137,7 +136,7 @@
                 break;
             case StatusCode.Danger:
                 flowStatus = "danger";
-                sendEmail(PumpInfo.Name, PumpInfo.Flow.ToString(), "flow");
+                //sendEmail(PumpInfo.Name, PumpInfo.Flow.ToString(), "flow");
                 break;
             default:
                 break;
@@ -188,17 +187,17 @@
         }
     }
 
-    void sendEmail(string pumpName, string dangerReading, string dangerType)
-    {
-        lock (sendingEmail)
-        {
-            string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
-            //EmailService emailService = new EmailService(smtpClient, "iotemailpumpbot@gmail.com");
-            emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
-        }
+    //void sendEmail(string pumpName, string dangerReading, string dangerType)
+    //{
+    //    lock (sendingEmail)
+    //    {
+    //        string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
+    //        //EmailService emailService = new EmailService(smtpClient, "iotemailpumpbot@gmail.com");
+    //        emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
+    //    }
 
-        //Thread thread;
-        //thread.Start(emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message));
-        //await emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
-    }
+    //    //Thread thread;
+    //    //thread.Start(emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message));
+    //    //await emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
+    //}
 }
