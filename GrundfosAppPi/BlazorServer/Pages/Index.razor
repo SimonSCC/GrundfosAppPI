@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject EmailService emailService;
+@inject IOTReceiver receiver;
 
 <h1>Dashboard</h1>
 <br>
@@ -59,8 +60,6 @@
 
 
 @code {
-    IOTReceiver receiver = new IOTReceiver();
-
     public PumpInfo PumpInfo { get; set; }
 
     public string speedStatus { get; set; }
@@ -181,9 +180,11 @@
         }
     }
 
-    void sendEmail(string pumpName, string dangerReading, string dangerType)
+    async void sendEmail(string pumpName, string dangerReading, string dangerType)
     {
         string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
-        emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
+        //Thread thread;
+        //thread.Start(emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message));
+        //await emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
     }
 }

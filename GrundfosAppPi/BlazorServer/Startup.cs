@@ -1,3 +1,4 @@
+using ClassLibrary.Data;
 using ClassLibrary.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -30,6 +31,7 @@ namespace BlazorServer
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<EmailService>(new EmailService("smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true));
+            services.AddTransient<IOTReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

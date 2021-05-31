@@ -23,7 +23,9 @@ namespace ClassLibrary.Services
                 EnableSsl = ssl,
             };
         }
-        public bool Send(string toEmail, string subject, string message)
+
+
+        public async Task<bool> Send(string toEmail, string subject, string message)
         {
             MailMessage mailMessage = new MailMessage(fromEmail, new MailAddress(toEmail))
             {
@@ -31,9 +33,10 @@ namespace ClassLibrary.Services
                 Body = message
             };
 
-            client.Send(mailMessage);
+            await client.SendMailAsync(mailMessage);
 
             return true;
         }
     }
 }
+
