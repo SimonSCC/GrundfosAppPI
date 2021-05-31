@@ -29,7 +29,7 @@ namespace PumpEmulator
 
                 Console.WriteLine(pumpData);
                 SendToIoTHub(pumpData);
-                Thread.Sleep(2000);
+                Thread.Sleep(5000);
             }
         }
 

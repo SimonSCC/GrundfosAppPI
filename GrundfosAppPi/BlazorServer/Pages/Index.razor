@@ -74,9 +74,19 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        //you could go to _Host.cshtml and change render-mode = "ServerPrerendered" to render-mode = "Server", and it would be called only once.
+        //If you need a method that is called only once, you can use OnAfterRenderAsync. This is invoked after the component has rendered.
+
         receiver.MessageReceived += MessageReceivedEventHandler;
         receiver.StartReceieveMessagesFromDevice();
     }
+        
+    //protected override Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    receiver.MessageReceived += MessageReceivedEventHandler;
+    //    receiver.StartReceieveMessagesFromDevice();
+    //    return base.OnAfterRenderAsync(firstRender);
+    //}
 
     void MessageReceivedEventHandler(object sender, EventArgs e)
     {
@@ -134,7 +144,7 @@
 
         SetStatus();
         StateHasChanged();
-     }
+    }
 
     void SetStatus()
     {

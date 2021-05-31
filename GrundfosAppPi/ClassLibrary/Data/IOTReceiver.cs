@@ -11,6 +11,8 @@ namespace ClassLibrary.Data
     {
         EventHubClient eventHubClient { get; set; }
         PartitionReceiver eventReceiver { get; set; }
+        //int Epoch = 0;
+        //int LastEpoch;
 
         const string EventHubCompatibleEndPoint = "sb://ihsuproddbres030dednamespace.servicebus.windows.net/";
         const string EventHubCompatiblePath = "iothub-ehub-iotprojekt-11034214-aa0f2b4ca1";
@@ -42,12 +44,15 @@ namespace ClassLibrary.Data
                 //Partitions på IOT huben er der to. Det er bare hvilken del, på den måde kan man have en listener på hver, og have kaffemaskiner på den ene,
                 //og ngoet på den anden
                 if (eventReceiver == null)
-                {
-                    eventReceiver = eventHubClient.CreateReceiver("$Default", "0", EventPosition.FromEnqueuedTime(DateTime.Now));
+                {                   
+                    eventReceiver = eventHubClient.CreateEpochReceiver("$Default", "0", EventPosition.FromEnqueuedTime(DateTime.Now), 0);
                 }
-
                 while (true)
                 {
+                    //if (eventReceiver == null || eventReceiver.IsClosed)
+                    //{
+                    //    eventReceiver = eventHubClient.CreateReceiver("$Default", "0", EventPosition.FromEnqueuedTime(DateTime.Now));
+                    //}
                     IEnumerable<EventData> events = await eventReceiver.ReceiveAsync(100);
 
                     foreach (EventData eventData in events)
@@ -58,14 +63,18 @@ namespace ClassLibrary.Data
                     }
 
                     MessageReceived?.Invoke(this, EventArgs.Empty);
+                    //await eventReceiver.CloseAsync();
                 }
+
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                eventHubClient.Close();
-                CreateEventHubClient();
-                StartReceieveMessagesFromDevice();
+                eventReceiver.Close();
+                //eventHubClient.Close();
+                //CreateEventHubClient();
+                //Epoch++;
+                //StartReceieveMessagesFromDevice();
             }
         }
 
