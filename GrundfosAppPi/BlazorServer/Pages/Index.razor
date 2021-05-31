@@ -1,4 +1,5 @@
 ﻿@page "/"
+@inject EmailService emailService;
 
 <h1>Dashboard</h1>
 <br>
@@ -96,6 +97,7 @@
                 break;
             case StatusCode.Danger:
                 speedStatus = "Danger";
+                sendEmail(PumpInfo.Name, PumpInfo.Speed.ToString(), "speed");
                 break;
             default:
                 break;
@@ -112,6 +114,7 @@
                 break;
             case StatusCode.Danger:
                 frequenceStatus = "danger";
+                sendEmail(PumpInfo.Name, PumpInfo.Frequence.ToString(), "frequence");
                 break;
             default:
                 break;
@@ -127,11 +130,12 @@
                 break;
             case StatusCode.Danger:
                 flowStatus = "danger";
+                sendEmail(PumpInfo.Name, PumpInfo.Flow.ToString(), "flow");
                 break;
             default:
                 break;
         }
-        
+
 
         SetStatus();
 
@@ -175,5 +179,11 @@
             status = "Good";
             image_status = "green";
         }
+    }
+
+    void sendEmail(string pumpName, string dangerReading, string dangerType)
+    {
+        string message = "The " + dangerType + " from " + pumpName + " is reading " + dangerReading + " and it's about to explode 🤯💥💣";
+        emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + pumpName, message);
     }
 }
