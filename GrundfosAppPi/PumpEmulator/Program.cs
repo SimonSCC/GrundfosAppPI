@@ -2,6 +2,7 @@
 using ClassLibrary.Models;
 using ClassLibrary.Services;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 
@@ -34,12 +35,14 @@ namespace PumpEmulator
 
         private void SendToIoTHub(PumpInfo pumpInfo)
         {
-            DangerReading potentialDangerReading = pumpInfo.DoesContainDangerValues();
-            if (potentialDangerReading != null)
+            List<DangerReading> potentialDangerReadings = pumpInfo.DoesContainDangerValues();
+            if (potentialDangerReadings.Count != 0)
             {
-                SendEmail(potentialDangerReading);
+                foreach (DangerReading reading in potentialDangerReadings)
+                {
+                    SendEmail(reading);
+                }
             } 
-
             iOTHub.Send(pumpInfo);
         }
 

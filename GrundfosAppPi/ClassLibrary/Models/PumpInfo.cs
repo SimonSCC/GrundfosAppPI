@@ -71,7 +71,7 @@ namespace ClassLibrary.Models
         {
             get { return speed; }
             set
-            {
+            {                
                 if (value <= 150 || value >= 1850)
                 {
                     SpeedStatus = StatusCode.Warning;
@@ -111,22 +111,23 @@ namespace ClassLibrary.Models
             return JsonSerializer.Serialize(this);
         }
 
-        public DangerReading DoesContainDangerValues()
+        public List<DangerReading> DoesContainDangerValues()
         {
+            List<DangerReading> dangers = new List<DangerReading>();
             if (SpeedStatus == StatusCode.Danger)
             {
-                return new DangerReading(Name, "Speed", Speed.ToString());
+                dangers.Add(new DangerReading(Name, "Speed", Speed.ToString())); 
             }
             if (FlowStatus == StatusCode.Danger)
             {
-                return new DangerReading(Name, "Flow", Flow.ToString());
+                dangers.Add(new DangerReading(Name, "Flow", Flow.ToString()));
             }
             if (FrequenceStatus == StatusCode.Danger)
             {
-                return new DangerReading(Name, "Frequence", Frequence.ToString());
+                dangers.Add(new DangerReading(Name, "Frequence", Frequence.ToString()));
             }
 
-            return null;
+            return dangers;
         }
     }
 
