@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace BlazorServer
@@ -30,8 +31,24 @@ namespace BlazorServer
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<EmailService>(new EmailService("smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true));
-            services.AddTransient<IOTReceiver>();
+            services.AddScoped<SmtpClient>(options => new SmtpClient
+            {
+                //(new EmailService("smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true)
+                Credentials = new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"),
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true
+
+            });
+
+
+            //services.AddScoped(
+            //    options => new EmailService(
+            //        "smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true));
+
+
+
+            services.AddScoped<IOTReceiver>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
