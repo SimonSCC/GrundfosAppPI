@@ -18,8 +18,37 @@ namespace BlazorServer.Services
         public EventHandler PumpInfoReceived;
         public APIService()
         {
-            _httpClient = new HttpClient();
-            _httpClient.BaseAddress = new Uri("https://localhost:44389/");
+            //In the API change where it is hosted in launchsettings.json
+            //For Local Environment it needs to be
+            //"applicationUrl": "https://localhost:5001;http://localhost:5000",
+
+            //For Rasberry PI it need to be:
+            //"applicationUrl": "https://192.168.0.2:5001;http://192.168.0.2:5000",
+
+            //Also make sure to run the app as BlazorServer instead of IIS Express
+
+            //You can also write:
+            //"applicationUrl": "https://*:5001;http://*:5000",
+
+
+
+
+            //For API running on Rasberry PI:
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            // Pass the handler to httpclient(from you are calling api)
+            _httpClient = new HttpClient(clientHandler);
+            _httpClient.BaseAddress = new Uri("https://192.168.0.2:5001/");
+            //
+
+
+            ////For API running on localhost
+            //_httpClient = new HttpClient();
+            //_httpClient.BaseAddress = new Uri("https://localhost:44389/");
+            ////
+
+
             _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
