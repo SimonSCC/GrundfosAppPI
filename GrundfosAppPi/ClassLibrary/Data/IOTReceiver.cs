@@ -25,6 +25,8 @@ namespace ClassLibrary.Data
         {
             MainQueue = new Queue<PumpInfo>();
             CreateEventHubClient();
+
+            StartReceieveMessagesFromDevice();
         }
 
 
@@ -51,7 +53,7 @@ namespace ClassLibrary.Data
                
                     IEnumerable<EventData> events = await eventReceiver.ReceiveAsync(100);
 
-                    foreach (EventData eventData in events)
+                   foreach (EventData eventData in events)
                     {
                         string data = Encoding.UTF8.GetString(eventData.Body.Array);
                         Console.WriteLine("  {0}:", data);
@@ -65,7 +67,8 @@ namespace ClassLibrary.Data
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                eventReceiver.Close();                
+                StartReceieveMessagesFromDevice();
+                //eventReceiver.Close();                
             }
         }
 
