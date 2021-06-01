@@ -1,0 +1,160 @@
+﻿@page "/"
+@inject IOTReceiver receiver;
+
+
+
+<h1>Dashboard</h1>
+<br>
+<div class="width60">
+    <div class="optionboxes">
+        <div id="status-image" class="mat-layout-grid-cell">
+            @if (PumpInfo != null)
+            {
+                <h6>@PumpInfo.Name</h6>
+                <br>
+                <image class="image" src="images/pumpe.png"></image>
+            }
+        </div>
+        <div id="status-image" class="mat-layout-grid-cell">
+            <p>@status</p>
+            @if (image_status == "red")
+            {
+                <image class="image" src="images/red.png"></image>
+            }
+            @if (image_status == "yellow")
+            {
+                <image class="image" src="images/yellow.png"></image>
+            }
+            @if (image_status == "green")
+            {
+                <image class="image" src="images/green.png"></image>
+            }
+        </div>
+        <div id="status-image" class="mat-layout-grid-cell">
+
+            @if (PumpInfo != null)
+            {
+                <div class="PumpInfoDisplay">
+                    <p class="@speedStatus">Speed: @PumpInfo.Speed rpm</p>
+                    <p class="@frequenceStatus">Frequence: @PumpInfo.Frequence Hz</p>
+                    <p>PowerUsage: @PumpInfo.PowerUsage kWh</p>
+                    <p class="@flowStatus">Flow: @PumpInfo.Flow m3/h</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<MatButton Unelevated="true" Icon="settings_remote" Id="first-row-button">Control Mode</MatButton>
+<MatButton Unelevated="true" Icon="settings_remote" Id="first-row-button">Operating Mode</MatButton>
+<MatButton Unelevated="true" Icon="control_point" Id="first-row-button">Setpoint</MatButton>
+<MatButton Unelevated="true" Icon="clear" Id="first-row-button">Stop</MatButton>
+<br>
+<br>
+<MatButton Unelevated="true" Id="second-row-button">Status</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Settings</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Scheduling (Enabled)</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Alarms and warnings</MatButton>
+<MatButton Unelevated="true" Id="second-row-button">Assist</MatButton>
+
+
+
+@code {
+    public PumpInfo PumpInfo { get; set; }
+
+    public string speedStatus { get; set; }
+    public string frequenceStatus { get; set; }
+    public string flowStatus { get; set; }
+
+    public string status { get; set; }
+    public string image_status { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        //you could go to _Host.cshtml and change render-mode = "ServerPrerendered" to render-mode = "Server", and it would be called only once.
+        //If you need a method that is called only once, you can use OnAfterRenderAsync. This is invoked after the component has rendered.
+
+        receiver.MessageReceived += MessageReceivedEventHandler;
+        receiver.StartReceieveMessagesFromDevice();
+    }
+
+    void MessageReceivedEventHandler(object sender, EventArgs e)
+    {
+        GetNewMessagesFromReceiver();
+    }
+
+    void GetNewMessagesFromReceiver()
+    {
+        PumpInfo = receiver.ConsumeMessage();
+
+        switch (PumpInfo.SpeedStatus)
+        {
+            case StatusCode.Good:
+                speedStatus = "";
+                break;
+            case StatusCode.Warning:
+                speedStatus = "warning";
+                break;
+            case StatusCode.Danger:
+                speedStatus = "danger";
+                break;
+            default:
+                break;
+        }
+
+        switch (PumpInfo.FrequenceStatus)
+        {
+            case StatusCode.Good:
+                frequenceStatus = "";
+                break;
+            case StatusCode.Warning:
+                frequenceStatus = "warning";
+                break;
+            case StatusCode.Danger:
+                frequenceStatus = "danger";
+                break;
+            default:
+                break;
+        }
+
+        switch (PumpInfo.FlowStatus)
+        {
+            case StatusCode.Good:
+                flowStatus = "";
+                break;
+            case StatusCode.Warning:
+                flowStatus = "warning";
+                break;
+            case StatusCode.Danger:
+                flowStatus = "danger";
+                break;
+            default:
+                break;
+        }
+
+        SetStatus();
+        StateHasChanged();
+    }
+
+    void SetStatus()
+    {
+        if (speedStatus == "danger" || frequenceStatus == "danger" || flowStatus == "danger")
+        {
+            status = "Danger";
+            image_status = "red";
+        }
+        else if (speedStatus == "warning" || frequenceStatus == "warning" || flowStatus == "warning")
+        {
+            status = "Warning";
+            image_status = "yellow";
+        }
+        else
+        {
+            status = "Good";
+            image_status = "green";
+        }
+    }
+}
