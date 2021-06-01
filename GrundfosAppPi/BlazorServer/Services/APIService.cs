@@ -39,9 +39,11 @@ namespace BlazorServer.Services
 
             // Pass the handler to httpclient(from you are calling api)
             _httpClient = new HttpClient(clientHandler);
-            _httpClient.BaseAddress = new Uri("https://192.168.0.2:5001/");
+            //_httpClient.BaseAddress = new Uri("https://192.168.0.2:5001/");
             //
 
+
+            _httpClient.BaseAddress = new Uri("https://80.167.81.52:5001/");
 
             ////For API running on localhost
             //_httpClient = new HttpClient();
