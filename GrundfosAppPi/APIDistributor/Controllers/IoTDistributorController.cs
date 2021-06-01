@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace APIDistributor.Controllers
@@ -14,7 +15,7 @@ namespace APIDistributor.Controllers
     [Route("[controller]")]
     public class IoTDistributorController : ControllerBase
     {
-       readonly ReceiverLogic _receiverLogic;
+        readonly ReceiverLogic _receiverLogic;
 
         public IoTDistributorController(ReceiverLogic receiverLogic)
         {
@@ -25,7 +26,7 @@ namespace APIDistributor.Controllers
         public PumpInfo GetLatestReadings()
         {
             return _receiverLogic.LastReadValues;
-        }    
+        }
 
     }
 }

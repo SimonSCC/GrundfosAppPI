@@ -1,5 +1,6 @@
 ﻿@page "/"
-@inject IOTReceiver receiver;
+@*@inject IOTReceiver receiver;*@
+@inject Services.APIService apiService;
 
 
 
@@ -74,21 +75,27 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        apiService.PumpInfoReceived += MessageReceivedEventHandler;
+        apiService.StartLoop();
         //you could go to _Host.cshtml and change render-mode = "ServerPrerendered" to render-mode = "Server", and it would be called only once.
         //If you need a method that is called only once, you can use OnAfterRenderAsync. This is invoked after the component has rendered.
 
-        receiver.MessageReceived += MessageReceivedEventHandler;
-        receiver.StartReceieveMessagesFromDevice();
+        //receiver.MessageReceived += MessageReceivedEventHandler;
+        //receiver.StartReceieveMessagesFromDevice();
     }
 
     void MessageReceivedEventHandler(object sender, EventArgs e)
     {
-        GetNewMessagesFromReceiver();
+
+        GetNewMessagesFromReceiver(sender as PumpInfo);
     }
 
-    void GetNewMessagesFromReceiver()
+
+
+    void GetNewMessagesFromReceiver(PumpInfo newInfo)
     {
-        PumpInfo = receiver.ConsumeMessage();
+        PumpInfo = newInfo;
+        //PumpInfo = receiver.ConsumeMessage();
 
         switch (PumpInfo.SpeedStatus)
         {

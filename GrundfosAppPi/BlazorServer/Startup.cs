@@ -1,3 +1,4 @@
+using BlazorServer.Services;
 using ClassLibrary.Data;
 using ClassLibrary.Services;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +32,15 @@ namespace BlazorServer
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddTransient<IOTReceiver>();
+
+            //services.AddHttpClient<APIService>(client =>
+            //{
+            //    client.BaseAddress = new Uri("https://localhost:44389/");
+            //    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            //});
+
+            services.AddScoped<APIService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,7 +54,7 @@ namespace BlazorServer
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                app.UseHsts();  
             }
 
             app.UseHttpsRedirection();
