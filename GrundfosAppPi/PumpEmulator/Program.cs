@@ -11,7 +11,7 @@ namespace PumpEmulator
     class Program
     {
         IOTProducer iOTHub = new IOTProducer("HostName=IotProjekt.azure-devices.net;DeviceId=Pumpe1;SharedAccessKey=ZicGAUZfLLE4CcxTc4oCqz0gpm6i3ZzpuP+NG2oXxCs=");
-        EmailService _emailService = new EmailService("smtp.gmail.com", 587, new NetworkCredential("iotemailpumpbot@gmail.com", "dragonslayer420"), true);
+        //EmailService _emailService = new EmailService("smtp.gmail.com", 587, new NetworkCredential(CredentialsRemoved), true);
 
         static void Main(string[] args)
         {
@@ -48,7 +48,7 @@ namespace PumpEmulator
 
         private void SendEmail(DangerReading potentialDangerReading)
         {
-            _emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + potentialDangerReading.PumpName, potentialDangerReading.ToString());
+            //_emailService.Send("simonsondergaardchristiansen@gmail.com", "Danger from " + potentialDangerReading.PumpName, potentialDangerReading.ToString());
         }
     }
 }
